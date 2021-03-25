@@ -30,4 +30,50 @@ SELECT model, speed, hd
 FROM pc
 WHERE (cd = '12x' OR cd = '24x') AND price < 600
 
+Задание 7.Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
+SELECT model, price
+FROM PC 
+WHERE model IN (SELECT model
+FROM product 
+WHERE maker = 'B' and type = 'pc')
+UNION
+SELECT model, price
+FROM Laptop
+WHERE model IN (SELECT model
+FROM product
+WHERE maker ='B' and type = 'laptop')
+UNION 
+SELECT model, price
+FROM printer
+WHERE model IN (SELECT model
+FROM product
+WHERE maker = 'b' and type = 'printer')
+
+Задание 8.Найдите производителя, выпускающего ПК, но не ПК-блокноты.
+SELECT DISTINCT maker
+FROM product
+WHERE type = 'pc'
+EXCEPT
+SELECT DISTINCT product.maker
+FROM product
+Where type = 'laptop'
+
+Задание 10.Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
+SELECT model, price
+FROM printer
+WHERE price =
+(SELECT MAX(price)
+FROM printer)
+
+Задание 11. Найдите среднюю скорость ПК.
+Select avg (speed) from pc
+
+Задание 12.Найдите среднюю скорость ПК-блокнотов, цена которых превышает 1000 дол.
+Select avg(speed) from laptop
+where price > 1000
+
+Задание 13.Найдите среднюю скорость ПК, выпущенных производителем A.
+SELECT AVG(pc.speed)
+FROM pc, product
+WHERE pc.model = product.model AND product.maker = 'A'
 
